@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-
+//123
 int main() {
     setlocale(LC_ALL, "rus");
     // Статический с индексами
