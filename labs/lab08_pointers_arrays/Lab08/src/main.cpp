@@ -1,8 +1,68 @@
 #include <iostream>
 using namespace std;
-//123
+//Задание 1: m = 456, n = 53.14
+//Задание 2
+int links_indicator(int n, int m) {
+    // ссылка
+    int links = n * n;
+    int &reflinks = links;
+    // указатель
+    int indic = m * m;
+    int *ref = &indic;
+    cout << "5 ->" << &reflinks << "| 10 ->" << *ref << "\n";
+    return 0;
+}
+
+struct Node {
+    int id;
+    Node* prev;
+    Node* next;
+
+};
+
+void Exercise4()// упражнение 4
+{
+    cout << "task 4";
+
+    Node* head = NULL;
+    Node* tail = NULL;
+
+    for (int i = 0; i < 10; i++)
+    {
+        Node* newItem = new Node;
+        newItem->id = i;
+        newItem->next = NULL;
+
+        if (head == NULL)
+        {
+            newItem->prev = NULL;
+            head = newItem;
+            tail = newItem;
+        }
+        else
+        {
+            tail->next = newItem;
+            newItem->prev = tail;
+            tail = newItem;
+        }
+    }
+
+    cout << "list output " << "\n";
+
+    Node* current = head;
+    while (current != NULL)
+    {
+        cout << current->id << " ";
+        current = current->next;
+    }
+}
+
 int main() {
     setlocale(LC_ALL, "rus");
+    cout << "task 2" << "\n";
+    int links = 5, indic = 10;
+    links_indicator(links, indic);
+    cout << "task 3" << "\n";
     // Статический с индексами
     int n1, n2, n3, n4;
     cout << "Static with indexes" << "\n" << "Enter the size of the array 1 = ";
@@ -45,9 +105,9 @@ int main() {
         *(nums4 + i) = i * i;
         cout << *(nums4 + i) << " ";
     }
-    //----
+    //Объединение массивов
     int a, b, t1, t2;
-    cout << "\n" <<  "number 1 array -> ";
+    cout << "\n" << "number 1 array -> ";
     cin >> a;
     cout << "number 2 array -> ";
     cin >> b;
@@ -60,7 +120,7 @@ int main() {
     if (b == 2) { t2 = n2; }
     if (b == 3) { t2 = n3; }
     if (b == 4) { t2 = n4; }
-    if ((a == b) || (a < 1) || (a > 4) || (b < 1) || (b > 4)) {delete[] nums3; delete[] nums4; return 0;}
+    if ((a == b) || (a < 1) || (a > 4) || (b < 1) || (b > 4)) { delete[] nums3; delete[] nums4; return 0; }
     //--
     int c = 0;
     int* un_arr;
@@ -74,7 +134,7 @@ int main() {
     if (a == 2) {
         for (int i = 0; i < t1; i++) {
             un_arr[i] = nums2[i];
-            c ++ ;
+            c++;
         }
     }
     if (a == 3) {
@@ -118,5 +178,9 @@ int main() {
     delete[] nums3;
     delete[] nums4;
     delete[] un_arr;
+    // Двусвязный список
+    cout << "\n" << "task 4" << "\n";
+    Exercise4();
     return 0;
 }
+    
