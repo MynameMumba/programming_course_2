@@ -64,26 +64,17 @@ int main() {
     links_indicator(links, indic);
     cout << "task 3" << "\n";
     // Статический с индексами
-    int n1, n2, n3, n4;
+    int n1 = 10, n2 = 10, n3, n4;
     cout << "Static with indexes" << "\n" << "Enter the size of the array 1 = ";
-    cin >> n1;
-    int nums1[100];
-    if ((size(nums1) < n1) || (n1 < 0)) {
-        return 0;
-    }
-
-    for (int i = 0; i < n1; i++) {
+    int nums1[10];
+    for (int i = 0; i < 10; i++) {
         nums1[i] = i * i;
         cout << nums1[i] << " ";
     }
     // Статический с указателями
     cout << "\n" << "Static with pointers" << "\n" << "Enter the size of the array 2 = ";
-    cin >> n2;
-    int nums2[100];
-    if ((size(nums2) < n2) || (n2 < 0)) {
-        return 0;
-    }
-    for (int i = 0; i < n2; i++) {
+    int nums2[10];
+    for (int i = 0; i < 10; i++) {
         *(nums2 + i) = i * i;
         cout << *(nums2 + i) << " ";
     }
