@@ -1,5 +1,6 @@
 #include <iostream>
-using namespace std;
+using std::cout;
+using std::cin;
 //Задание 1: m = 456, n = 53.14
 //Задание 2
 int links_indicator(int n, int m) {
@@ -9,7 +10,38 @@ int links_indicator(int n, int m) {
     // указатель
     int indic = m * m;
     int *ref = &indic;
-    cout << "5 ->" << &reflinks << "| 10 ->" << *ref << "\n";
+    cout << "5 ->" << reflinks << "| 10 ->" << *ref << "\n";
+    return 0;
+}
+int un_arr(int* arr1, int* arr2) {
+    int i = 0, j = 0, k = 0;
+    int* big_arr;
+    big_arr = new int[10];
+    while ((i < 5) && (j < 5)) {
+        if (arr1[i] < arr2[j]) {
+            big_arr[k] = arr1[i];
+            i++;
+        }
+        else {
+            big_arr[k] = arr2[j];
+            j++;
+        }
+        k++;
+    while (i < 5) {
+        big_arr[k] = arr1[i];
+        i++;
+        k++;
+        }
+    while (j < 5) {
+        big_arr[k] = arr2[j];
+        j++;
+        k++;
+    }
+    }
+    for (i = 0; i < 10; i++) {
+        cout << big_arr[i] << " ";
+    }
+    delete[] big_arr;
     return 0;
 }
 
@@ -96,79 +128,16 @@ int main() {
         *(nums4 + i) = i * i;
         cout << *(nums4 + i) << " ";
     }
-    //Объединение массивов
-    int a, b, t1, t2;
-    cout << "\n" << "number 1 array -> ";
-    cin >> a;
-    cout << "number 2 array -> ";
-    cin >> b;
-    if (a == 1) { t1 = n1; }
-    if (a == 2) { t1 = n2; }
-    if (a == 3) { t1 = n3; }
-    if (a == 4) { t1 = n4; }
-    //----
-    if (b == 1) { t2 = n1; }
-    if (b == 2) { t2 = n2; }
-    if (b == 3) { t2 = n3; }
-    if (b == 4) { t2 = n4; }
-    if ((a == b) || (a < 1) || (a > 4) || (b < 1) || (b > 4)) { delete[] nums3; delete[] nums4; return 0; }
-    //--
-    int c = 0;
-    int* un_arr;
-    un_arr = new int[t1 + t2];
-    if (a == 1) {
-        for (int i = 0; i < t1; i++) {
-            un_arr[i] = nums1[i];
-            c++;
-        }
-    }
-    if (a == 2) {
-        for (int i = 0; i < t1; i++) {
-            un_arr[i] = nums2[i];
-            c++;
-        }
-    }
-    if (a == 3) {
-        for (int i = 0; i < t1; i++) {
-            un_arr[i] = nums3[i];
-            c++;
-        }
-    }
-    if (a == 4) {
-        for (int i = 0; i < t1; i++) {
-            un_arr[i] = nums4[i];
-            c++;
-        }
-    }
-    //----
-    if (b == 1) {
-        for (int i = 0; i < (t2); i++) {
-            un_arr[c + i] = nums1[i];
-        }
-    }
-    if (b == 2) {
-        for (int i = 0; i < (t2); i++) {
-            un_arr[c + i] = nums2[i];
-        }
-    }
-    if (b == 3) {
-        for (int i = 0; i < (t2); i++) {
-            un_arr[c + i] = nums3[i];
-        }
-    }
-    if (b == 4) {
-        for (int i = 0; i < (t2); i++) {
-            un_arr[c + i] = nums4[i];
-        }
-    }
-    cout << "Сombined array:" << "\n";
+    cout << "\n" << "merging arrays with even and odd numbers:" << "\n";
+    // слияние массивов
 
-    for (int i = 0; i < t1 + t2; i++) {
-        cout << un_arr[i] << " ";
-    }
-    delete[] nums3;
-    delete[] nums4;
-    delete[] un_arr;
+    int* arr1;
+    arr1 = new int[5] {0, 2, 4, 6, 8};
+    int* arr2;
+    arr2 = new int[5] {1, 3, 5, 7, 9};
+    un_arr(arr1, arr2);
+    delete[] arr1;
+    delete[] arr2;
     // Двусвязный список
     cout << "\n" << "task 4" << "\n";
     Exercise4();
