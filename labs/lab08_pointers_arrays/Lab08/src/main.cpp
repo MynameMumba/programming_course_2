@@ -27,6 +27,7 @@ int un_arr(int* arr1, int* arr2) {
             j++;
         }
         k++;
+    }
     while (i < 5) {
         big_arr[k] = arr1[i];
         i++;
@@ -36,7 +37,6 @@ int un_arr(int* arr1, int* arr2) {
         big_arr[k] = arr2[j];
         j++;
         k++;
-    }
     }
     for (i = 0; i < 10; i++) {
         cout << big_arr[i] << " ";
