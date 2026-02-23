@@ -35,20 +35,24 @@ int main() {
     SetConsoleOutputCP(1251);
     cout << "Задание 1" << "\n" << "Char----------" << endl;
     task1();
-    // Упражнение 4
+    // Упражнение 4 string
     int word_count = 0;
-    cout << "Введите количество слов в массиве: " << "\n";
+    cout << "Задание 4(str) \n" << "Введите количество слов в массиве:" << endl;
     cin >> word_count;
-    vector<string> words;
-    words.reserve(word_count);
-    if ((word_count > 20) || (word_count < 0)){
+    if ((word_count > 20) || (word_count <= 0)) {
+        cout << "Не получится <<<(-___-)/";
         return 0;
     }
+    //string
+    vector<string> words;
+    words.reserve(word_count);
 
     for (int i = 0; i < word_count; ++i) {
         string word;
-        cout << "Введите слово: ";
+        char wordc[11];
+        cout << "Введите "<< i+1 << " слово: ";
         cin >> word;
+        cout << "\n";
         if (word.length() > 10) { 
             i--;
             cout << "Недопустимое слово, введите другое" << "\n";
@@ -57,14 +61,31 @@ int main() {
             words.push_back(word);
         }
     }
-    cout << "Результат работы программы:" << "\n";
+    cout << "Результат работы программы(Str):" << "\n";
     for (int i = 1; i < word_count; i += 2 ){
         cout << words[i] << " ";
     }
-
-    return 0;
+    cout << "\n" << "Задание 4(char)" << endl;
+    // char 
+    char mass[20][11];
+    char word2[20];
+    
+    for (int i = 0; i < word_count; i++) {
+        cout << "Введите " << i+1 << " Слово: ";
+        cin >> word2;
+        cout << "\n";
+        if (strlen(word2) > 10) {
+            i--;
+            cout << "Недопустимое слово, введите другое" << "\n";
+        }
+        else {
+            strcpy_s(mass[i], word2);
+        }
+    }
+    cout << "\n" << "Результат работы программы(Сhar):" << "\n";
+    for (int i = 1; i < word_count; i += 2) {
+        cout << mass[i] << " ";
+    }
+    return 0; 
 }
-///
-//
-//
-//
+
