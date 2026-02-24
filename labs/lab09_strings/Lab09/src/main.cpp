@@ -43,7 +43,7 @@ int main() {
         cout << "Не получится <<<(-___-)/";
         return 0;
     }
-    //string
+    //string1
     vector<string> words;
     words.reserve(word_count);
 
