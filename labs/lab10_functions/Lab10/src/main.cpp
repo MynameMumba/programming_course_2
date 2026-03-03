@@ -3,32 +3,32 @@
 #include <ctime>
 using namespace std;
 
-void Un_mass(int M, int* mass) {
+// Функция распаковки массива
+int* Un_mass(int M, int* mass) {
     int* un_mass = new int[M];
-    int t, index = 0;
-    int count = 0;
+    int index = 0;
+
     for (int i = 0; i < 18; i++) {
-        t = mass[i];
-        for (int j = 0; j < t; j++) {
-            if (index < M) {  // Проверка на выход за границы
+        int count = mass[i];
+        for (int j = 0; j < count; j++) {
+            if (index < M) {
                 un_mass[index++] = i;
             }
         }
     }
-    //Вывод распакованного массива
-    cout << "The unpacked array: \n";
-    for (int i = 0; i < M; i++) {
-        cout << un_mass[i] << " ";
-        count ++;
-    }
-    cout << "\n";
-    cout << "The number of elements in the unpacked array: " << count << endl;
-    delete[] un_mass;
+    return un_mass;
 }
 
+int *Compressed_mass(int M, int* mass) {// Функция сжатия массива
+    int* compr_mass = new int[18] ();
+    for (int i = 0; i < M ; i++) {
+        compr_mass[mass[i]] += 1;
+    }
+    return compr_mass;
+}
 
-void Mass(int M) {
-    int mass[18]{0};
+int* Origin_Mass(int M) {
+    int mass [18]{ 0 };
     int t = 0, r = 0;
     // Диапазон значений элементов: 
 
@@ -36,31 +36,53 @@ void Mass(int M) {
         t = rand() % 18;
         mass[t] += 1;
     }
-    //Вывод сжатого массива
-    cout << "compressed array: \n";
-    for (int i = 0; i < 18 ;i++) {
-        cout << mass[i] << " ";
-    }
-    Un_mass(M, mass);
-}
+    int* origin_mass = Un_mass(M, mass);
+    return origin_mass;
+}   
 
+void chek_Mass(int M, int* origin, int* unpaking) {
+    int t = 0;
+    for (int i = 0; i < M; i++) {
+        if (origin[i] == unpaking[i]) {
+            t++;
+        }
+    }
+    if (t == M) {
+        cout << "\n The check was successful, and the original array matches the unpacked array. \n";
+    }
+    return;
+}
 
 
 
 int main() {
     srand(time(NULL));
     int M = 0;
+    int t = 0;
     cout << "Enter the number of characters in the array (at least 1000): ";
     cin >> M;
     if (M > 1000) {
-        Mass(M);
+        int* origin = Origin_Mass(M);
+        int* сompressed = Compressed_mass(M, origin);
+        int* unpacking = Un_mass(M, сompressed);
+        chek_Mass(M, origin, unpacking);
+        delete[] origin;
+        delete[] сompressed;
+        delete[] unpacking;
     }
     else {
         while (M <= 1000) {
             cout << "EROR!!! - The number of characters in the array must be > 1000 \n" << "Enter the number of characters in the array (at least 1000): " << endl;
             cin >> M;
         }
-        Mass(M);
+        int* origin = Origin_Mass(M);
+        int* сompressed = Compressed_mass(M, origin);
+        int* unpacking = Un_mass(M, сompressed);
+        chek_Mass(M, origin, unpacking);
+        delete[] origin;
+        delete[] сompressed;
+        delete[] unpacking;
+
     }
     return 0;
 }
