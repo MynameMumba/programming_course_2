@@ -65,6 +65,8 @@ int main() {
         int* origin = Origin_Mass(M);
         int* сompressed = Compressed_mass(M, origin);
         int* unpacking = Un_mass(M, сompressed);
+        cout << "\n  The size of the original array is:" << M * sizeof(int);
+        cout << "\n Size of the compressed array:" << 18 * sizeof(int) << endl;
         chek_Mass(M, origin, unpacking);
         delete[] origin;
         delete[] сompressed;
@@ -78,6 +80,8 @@ int main() {
         int* origin = Origin_Mass(M);
         int* сompressed = Compressed_mass(M, origin);
         int* unpacking = Un_mass(M, сompressed);
+        cout << "\n  The size of the original array is:" << M * sizeof(int);
+        cout << "\n Size of the compressed array:" << 18 * sizeof(int) << endl;
         chek_Mass(M, origin, unpacking);
         delete[] origin;
         delete[] сompressed;
