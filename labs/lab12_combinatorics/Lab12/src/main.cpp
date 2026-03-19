@@ -2,6 +2,7 @@
 #include <vector>
 using namespace std;
 const int N = 3;
+int c = 0;
 
 void backtrack(int *s, int n, int m){
     if (n == m) {
@@ -20,7 +21,8 @@ void backtrack(int *s, int n, int m){
         s[n] = s[i];
         s[i] = temp;
     }
-}  
+} 
+
 bool check(int** matrix, int k, int row, int col) {
     for (int i = 0; i < row; i++) {
         if (matrix[i][col] == 1) 
@@ -41,11 +43,18 @@ bool check(int** matrix, int k, int row, int col) {
 
 void matrixfunk(int row, int** matrix, int k, int* Q) {
     if (row == k) {
-        for (int e = 0; e < k; e++) {
-            cout << Q[e]+1 << " ";
+        if (k < 8) {
+            for (int e = 0; e < k; e++) {
+                cout << Q[e] + 1 << " ";
+            }
+            c++;
+            cout << endl;
+            return;
         }
-        cout << "\n";
-        return;
+        else {
+            c++;
+            return;
+        }
         
     }
     for (int col = 0; col < k; col++) {
@@ -55,27 +64,33 @@ void matrixfunk(int row, int** matrix, int k, int* Q) {
             matrixfunk(row + 1, matrix, k, Q);// переходим на следующую строку
             matrix[row][col] = 0; // откат 
         }
-    }
+    }   
 }
 
 
 void Queen(int j, int k, int* S, int* Q, int* R, int* L) {
-    for (int i = 0; i < k; i++){
-        if ((S[i] == 0) && (R[j-i + k - 1] == 0) && (L[j+i] == 0)) {
-            S[i] = 1; 
+    for (int i = 0; i < k; i++) {
+        if ((S[i] == 0) && (R[j - i + k - 1] == 0) && (L[j + i] == 0)) {
+            S[i] = 1;
             R[j - i + k - 1] = 1;
-            L[j + i] = 1; 
+            L[j + i] = 1;
             Q[j] = i;
             if (j == k - 1) {
-                for (int e = 0; e < k; e++) {
-                    cout << Q[e]+1 << " ";
+                if (k < 8) {
+                    for (int e = 0; e < k; e++) {
+                        cout << Q[e] + 1 << " ";
+                    }
+                    c++;
+                    cout << "\n";
                 }
-                cout << "\n";
+                else if (k >= 8) {
+                    c++;
+                }
             }
             else {
                 Queen(j + 1, k, S, Q, R, L);
             }
-            S[i] = 0; R[j - i + k - 1] = 0; L[i + j] = 0; 
+            S[i] = 0; R[j - i + k - 1] = 0; L[i + j] = 0;
         }
     }
 }
@@ -87,18 +102,8 @@ int main() {
 
     // Ферзи через массивы
     int k;
-    int c;
     cout << "Enter the board size:" << endl;
     cin >> k; // размер доски
-    while (k > 10) {
-        cout << "Программа будет выполняться слишком долго, вы уверены что хотите продолжить при k = " << k << "?\n" << "Введите 1 если да и 0 если хотите ввести другой размер доски: ";
-        cin >> c;
-        if (c == 1) { break; }
-        if (c == 0) {
-            cin >> k;
-            cout << endl;
-        }
-    }
 
     int* S;//
     S = new int[k] {};
@@ -108,13 +113,16 @@ int main() {
     R = new int[(k * 2) - 1] {};
     int* L;//
     L = new int[(k * 2) - 1] {};
-    //
+
+    //----------
     for (int i = 0; i < k; i++) {
         cout << "_ ";
     }
     cout << endl;
-    //
+    //----------
+
     Queen(0, k, S, Q, R, L); // функция по костюку
+    cout << "Number of permutations: " << c << endl;
     delete[] S;
     delete[] R;
     delete[] L;
@@ -128,19 +136,24 @@ int main() {
     }
     int* M;
     M = new int[k] {};
-    //
+
+    //-----------
     for (int i = 0; i < k; i++) {
         cout << "_ ";
     }
     cout << endl;
-    
-    matrixfunk(0, matrix, k, M); // функция по матрицам
-    
+    //------------
+    // функция по матрицам
+    c = 0;// обнуляем количество перестановок
+    matrixfunk(0, matrix, k, M);
+    cout << "Number of permutations: " << c << endl;
+
+    //------------
     for (int i = 0; i < k; i++) {
         cout << "_ ";
     }
     cout << endl;
-    //
+    //------------
 
     for (int i = 0; i < k; i++) { // удаляем столбцы матрицы
         delete [] matrix[i];
