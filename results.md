@@ -5,7 +5,7 @@
 | Еркин|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | [Зырянов](https://github.com/skroolll/programming_course_2)|  | 3 | 2 | 3 | 2| 2 | 8 |7  |  |  |  |  |  |  |  |  |  |  |
 | Ильин| |  | 2 |  |  | 2 |  |  |  |  |  |  |  |  |  |  |  |  |
-|[Карташов](https://github.com/Joziazf/programming_course_2)|4 | 3 | 2 |3  | 2 |2  |  | 7 |  |  |  |  |  |  |  |  |  |  |
+|[Карташов](https://github.com/Joziazf/programming_course_2)|4 | 3 | 2 |3  | 2 |2  |  | 7 | 11 |  |  |  |  |  |  |  |  |  |
 |  Коджебаш| 2| 3 | 2 |  |  | 2 |  |  |  |  |  |  |  |  |  |  |  |  |
 |  [Левичев](https://github.com/MynameMumba/programming_course_2)| | 3 |2  | 3 | 2 | 2 | . |  | 11 |  |  |  |  |  |  |  |  |  |
 |  Лютенко|4 |  | 2 |  |  2| 2 | 8 |  |  |  |  |  |  |  |  |  |  |  |
