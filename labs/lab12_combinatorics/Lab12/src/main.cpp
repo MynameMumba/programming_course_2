@@ -3,19 +3,20 @@
 using namespace std;
 const int N = 3;
 int c = 0;
+int s[N]{ 1,2,3 };
 
-void backtrack(int *s, int n, int m){
-    if (n == m) {
+void backtrack(int n){
+    if (n == N) {
         cout << s[0] << " " << s[1] << " " << s[2] << endl;
         return;
     }
 
-    for (int i = n; i < m; i++){
+    for (int i = n; i < N; i++){
         int temp = s[n];
         s[n] = s[i];
         s[i] = temp;
 
-        backtrack(s, n + 1, m);
+        backtrack(n + 1);
 
         temp = s[n];
         s[n] = s[i];
@@ -40,7 +41,8 @@ bool check(int** matrix, int k, int row, int col) {
     }
     return true;
 }
-
+// row = строка
+// col = столбец
 void matrixfunk(int row, int** matrix, int k, int* Q) {
     if (row == k) {
         if (k < 8) {
@@ -95,10 +97,8 @@ void Queen(int j, int k, int* S, int* Q, int* R, int* L) {
     }
 }
 
-int main() {
-    // алгоритм ререстановки с бэктрекингом
-    int s[N] {1, 2, 3};   
-    backtrack(s, 0, N);
+int main() { 
+    backtrack(0);
 
     // Ферзи через массивы
     int k;
