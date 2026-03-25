@@ -12,5 +12,5 @@
 |  Медведев|2 | 3 | 2 |  | 2 | 2 |8  |  |  |  |  |  |  |  |  |  |  |  |
 |  [Однорал](https://github.com/M1aRS/programming_course_2_932503_odnoral)| 4| 3 | 2 |  3| 2 | 2 | . | 7 | 11 |  |  |  |  |  |  |  |  |  |
 |  [Сабитова](https://github.com/EssanAp5113N/programming_course_2)|4| 3 |  2| 3 | 2 | 2 | 8 | 7 | 11|  |  |  |  |  |  |  |  |  |
-|  [Томин](https://github.com/etomin52/edgar932503)| 2| 3 | 2 | 3 | 2 | 2 |  | 7 |  |  |  |  |  |  |  |  |  |  |
+|  [Томин](https://github.com/etomin52/edgar932503)| 2| 3 | 2 | 3 | 2 | 2 |  | 7 | 11 |  |  |  |  |  |  |  |  |  |
 |  Устинов| 4|  3| 2 |  |  | 2 | 8 |  |  |  |  |  |  |  |  |  |  |  |
