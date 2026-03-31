@@ -47,37 +47,47 @@ void gauss(float** matrix, int M, int Col) {
 
 
 int main() {
-    // чтение txt файла
     string line;
     ifstream in("Test.txt");
     getline(in, line);
 
     int M, N;
     istringstream iss(line);
-    iss >> M;
-    iss >> N;
+    iss >> M >> N;
+
+    getline(in, line);
     int Col = count(line.begin(), line.end(), ' ') + 1;
-    
-    //создаём и заполняем матрицу
-    float **matrix = new float*[M];
+
+    // создаём матрицу
+    float** matrix = new float* [M];
     for (int i = 0; i < M; i++) {
-        matrix[i] = new float[Col]{};
+        matrix[i] = new float[Col] {};
     }
-    for (int i = 0; i < M; i++) {
+
+    // первая строка
+    {
+        istringstream iss_first(line);
+        for (int j = 0; j < Col; j++) {
+            iss_first >> matrix[0][j];
+        }
+    }
+
+    // остальные строки
+    for (int i = 1; i < M; i++) {
         getline(in, line);
         istringstream iss(line);
         for (int j = 0; j < Col; j++) {
             iss >> matrix[i][j];
         }
     }
-    // считываем x1,x2,x3...
-    getline(in, line);
+
+    getline(in, line); 
     in.close();
 
-    //алгоритм приведения матрицы к ступенчатому виду
     gauss(matrix, M, Col);
 
-    // вывод результата в txt файл
+    // вывод 
+    cout << "A stepwise matrix:" << endl;
     ofstream out("Test.txt", ios::app);
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < Col; j++) {
@@ -85,10 +95,11 @@ int main() {
         }
         out << endl;
     }
-    out << endl;
-    // удаление матрицы
+    out.close();
+
+    // удаление
     for (int i = 0; i < M; i++) {
-        delete [] matrix[i];
+        delete[] matrix[i];
     }
     delete[] matrix;
     return 0;
