@@ -9,7 +9,7 @@ const float EPS = 1e-9;
 
 void gauss(float** matrix, int M, int Col) {
     // сортируем матрицу (на первую позицию ставим строку с наибольшим числом в первом столбце)
-    for (int n = 0; n < M && n < Col; n++) {
+    for (int n = 0; n < M && n < Col; n++) { // зацикливаем алгоритм (вычеркиваем столбец с 1 и нулями и соответствующую ему строку)
         int index = n;
         float max = fabsf(matrix[n][n]), temp;
         for (int i = n+1; i < M; i++) {
@@ -23,7 +23,7 @@ void gauss(float** matrix, int M, int Col) {
             matrix[n][r] = matrix[index][r];
             matrix[index][r] = temp;
         }
-        //делим первую строку на её первый элемент
+        //Все элементы первой строки делим на верхний элемент выбранного столбца.
         if (fabsf(matrix[n][n]) < EPS) {
             continue;
         }
@@ -31,7 +31,10 @@ void gauss(float** matrix, int M, int Col) {
         for (int i = n; i < Col; i++) {
             matrix[n][i] /= pivot;
         }
-        //вычитаем n-ю тройку из остальных
+       /* Из оставшихся строк вычитаем первую строку, 
+       умноженную на первый элемент соответствующей строки, 
+       с целью получить первым элементом каждой строки (кроме первой) ноль.
+        */
         for (int i = n+1; i < M; i++) {
             float factor = matrix[i][n];
             for (int j = n; j < Col; j++) {
@@ -71,9 +74,8 @@ int main() {
     getline(in, line);
     in.close();
 
-    //алгоритм превердения матрицы к ступенчатому виду
+    //алгоритм приведения матрицы к ступенчатому виду
     gauss(matrix, M, Col);
-
 
     // вывод результата в txt файл
     ofstream out("Test.txt", ios::app);
