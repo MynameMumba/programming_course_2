@@ -9,7 +9,7 @@
 |  [Коджебаш](https://github.com/mrbellskiy57/programming_course_2)| 2| 3 | 2 |  |  | 2 |.  | 7 |  |  |  |  |  |  |  |  |  |  |
 |  [Левичев](https://github.com/MynameMumba/programming_course_2)| | 3 |2  | 3 | 2 | 2 | . | 7| 11 | .| . |  |  |  |  |  |  |  |
 |  [Лютенко](https://github.com/neketlut-netizen/programming_course)|4 |  | 2 |  |  2| 2 | 8 |7  | 11 |  |  |  |  |  |  |  |  |  |
-|  [Медведев](https://github.com/dudosa-1/programming_course_2-Medvedev)|2 | 3 | 2 |  | 2 | 2 |8  |  | 11 |  |  |  |  |  |  |  |  |  |
+|  [Медведев](https://github.com/dudosa-1/programming_course_2-Medvedev)|2 | 3 | 2 |  | 2 | 2 |8  |  | 11 | 6 | 2 |  |  |  |  |  |  |  |
 |  [Однорал](https://github.com/M1aRS/programming_course_2_932503_odnoral)| 4| 3 | 2 |  3| 2 | 2 | . | 7 | 11 |  |  |  |  |  |  |  |  |  |
 |  [Сабитова](https://github.com/EssanAp5113N/programming_course_2)|4| 3 |  2| 3 | 2 | 2 | 8 | 7 | 11| 6 |  |  |  |  |  |  |  |  |
 |  [Томин](https://github.com/etomin52/edgar932503)| 2| 3 | 2 | 3 | 2 | 2 |  | 7 | 11 | 6 | 2 |  |  |  |  |  |  |  |
