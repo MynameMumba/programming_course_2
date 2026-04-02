@@ -4,8 +4,21 @@
 #include <algorithm>
 #include <sstream>
 #include <cmath>
+#include <iomanip>
 using namespace std;
 const float EPS = 1e-9;
+void prohod(float** matrix, int M, int Col, float* x) {
+    // Решение — это вектор, а не матрица
+ 
+    for (int i = M - 1; i >= 0; i--) {
+        float sum = 0;
+        // Суммируем вклад уже найденных переменных (справа от диагонали)
+        for (int j = i + 1; j < Col - 1; j++) {
+            sum += matrix[i][j] * x[j];
+        }
+        x[i] = (matrix[i][Col - 1] - sum) / matrix[i][i];
+    }
+}
 
 void gauss(float** matrix, int M, int Col) {
     // сортируем матрицу (на первую позицию ставим строку с наибольшим числом в первом столбце)
@@ -42,7 +55,6 @@ void gauss(float** matrix, int M, int Col) {
             }
         }
     }
-
 }
 
 
@@ -83,18 +95,27 @@ int main() {
 
     getline(in, line); 
     in.close();
-
+    // приведение к ступенчатому виду
     gauss(matrix, M, Col);
+    //нахождение единственного решения
+    float* x = new float[M] {};
+    prohod(matrix, M, Col, x);
 
     // вывод 
-    cout << "A stepwise matrix:" << endl;
     ofstream out("Test.txt", ios::app);
+    out << "Матрица, приведенная к ступенчатому виду:" << endl;
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < Col; j++) {
-            out << matrix[i][j] << " ";
+            out << setw(8) << fixed << setprecision(3) << matrix[i][j] << "\t";
         }
         out << endl;
     }
+    out << endl;
+    out << "Единственное решение:" << endl;
+    for (int i = 0; i < M;i++){
+        out << "x" << i+1 << " = " << x[i] << endl;
+    }
+    out << endl;
     out.close();
 
     // удаление
@@ -102,5 +123,6 @@ int main() {
         delete[] matrix[i];
     }
     delete[] matrix;
+    delete[] x;
     return 0;
 }
