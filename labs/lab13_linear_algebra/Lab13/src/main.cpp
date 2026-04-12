@@ -7,17 +7,42 @@
 #include <iomanip>
 using namespace std;
 const float EPS = 1e-9;
+int inappropriate = 0;
 void prohod(float** matrix, int M, int Col, float* x) {
-    // Решение — это вектор, а не матрица
- 
+    for (int i = 0; i < M; i++) {
+        bool rowIsZero = true;
+        for (int j = 0; j < Col - 1; j++) {
+            if (fabsf(matrix[i][j]) > EPS) {
+                rowIsZero = false;
+                break;
+            }
+        }
+        if (rowIsZero) {
+            if (fabsf(matrix[i][Col - 1]) > EPS) {
+                inappropriate = 1;
+                return;
+            }
+            inappropriate = 2;
+            return;
+        }
+    }
+
+    // Проверка на нули на диагонали (после исключения нулевых строк)
+    for (int i = 0; i < M; i++) {
+        if (fabsf(matrix[i][i]) < EPS) {
+            inappropriate = 2;
+            return;
+        }
+    }
+
     for (int i = M - 1; i >= 0; i--) {
         float sum = 0;
-        // Суммируем вклад уже найденных переменных (справа от диагонали)
         for (int j = i + 1; j < Col - 1; j++) {
             sum += matrix[i][j] * x[j];
         }
         x[i] = (matrix[i][Col - 1] - sum) / matrix[i][i];
     }
+    return;
 }
 
 void gauss(float** matrix, int M, int Col) {
@@ -99,10 +124,78 @@ int main() {
     gauss(matrix, M, Col);
     //нахождение единственного решения
     float* x = new float[M] {};
-    prohod(matrix, M, Col, x);
+
+    // Если переменных больше, чем уравнений — не единственное решение
+    if ((Col - 1) > M) {
+        inappropriate = 2;
+    }
+    // Вызываем prohod только если действительно единственное решение
+    if (inappropriate == 0) {
+        prohod(matrix, M, Col, x);
+    }
+
+    // Задание 3
+    // Массив для общего решения
+    float* general = new float[Col - 1] {};
+    bool* isbasic = new bool[Col - 1] {};
+    // если есть свободные члены
+    if ((inappropriate == 2)) {
+        // Поиск базисных переменных
+        for (int i = 0; i < M; i++){
+            for (int j = 0; j < Col - 1; j++){
+                if (fabs(matrix[i][j]) > EPS){
+                    bool isLeading = true;
+                    for (int k = 0; k < j; k++) {
+                        if (fabs(matrix[i][k]) > EPS) {
+                            isLeading = false;
+                            break;
+                        }
+                    }
+                    if (isLeading) {
+                        isbasic[j] = true;
+                        break;
+                    }
+                }
+            }
+        }      
+        // Свободные переменные ==  
+        for (int j = 0; j < Col - 1; j++) {
+            if (!isbasic[j]) {
+                general[j] = 2.0f;
+            }
+        }
+        //Находим базисные переменные обратным ходом
+        for (int i = M - 1; i >= 0; i--) {
+            int leadCol = -1;
+            for (int j = 0; j < Col-1; j++) {
+                if (fabsf(matrix[i][j]) > EPS) {
+                    bool isLeading = true;
+                    for (int k = 0; k < j; k++) {
+                        if (fabsf(matrix[i][k]) > EPS) {
+                            isLeading = false;
+                            break;
+                        }
+                    }
+                    if (isLeading) {
+                        leadCol = j;
+                        break;
+                    }
+                }
+            }
+            if (leadCol != -1) {
+                float sum = 0;
+                for (int j = leadCol + 1; j < Col - 1; j++) {
+                    sum += matrix[i][j] * general[j];
+                }
+                general[leadCol] = (matrix[i][Col - 1] - sum) / matrix[i][leadCol];
+            }
+        }
+    }
+
 
     // вывод 
     ofstream out("Test.txt", ios::app);
+    out << endl;
     out << "Матрица, приведенная к ступенчатому виду:" << endl;
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < Col; j++) {
@@ -111,9 +204,49 @@ int main() {
         out << endl;
     }
     out << endl;
-    out << "Единственное решение:" << endl;
-    for (int i = 0; i < M;i++){
-        out << "x" << i+1 << " = " << x[i] << endl;
+    if (inappropriate == 1) {
+        out << "Система несовместна (нет решений)" << endl;
+    }
+    else if (inappropriate == 0) {
+        out << "Единственное решение:" << endl;
+        for (int i = 0; i < M; i++) {
+            out << "x" << i + 1 << " = " << fixed << setprecision(3) << x[i] << endl;
+        }
+    }
+    // 3 задание
+    else if (inappropriate == 2) {
+        out << "Общее решение(Свободные члены == 1):" << endl;
+        //
+        int freeCount = 0;
+        for (int i = 0; i < Col - 1; i++) {
+            if (!isbasic[i]) {
+                freeCount++;
+            }
+        }
+        if (freeCount == 1) { // если свободных == 1
+            for (int i = 0; i < Col - 1; i++) {
+                if (!isbasic[i]){
+                    out << "x" << i+1 << " - is free"<< endl;                  
+                }
+            }
+        }
+        if (freeCount > 1) { // если свободных > 1
+            bool first = true;
+            for (int i = 0; i < Col - 1; i++) {
+                if (!isbasic[i]) {
+                    if (!first) out << ", ";
+                    out << "x" << i + 1;
+                    first = false;
+                }
+            }
+            out << " - are free" << endl;
+        }
+        // вывод общего решения для свободных членов == 1
+        for (int j = 0; j < Col - 1; j++) {
+            out << "x" << j + 1 << " = " << fixed << setprecision(3) << general[j] << "  ";
+        }
+
+
     }
     out << endl;
     out.close();
@@ -124,5 +257,7 @@ int main() {
     }
     delete[] matrix;
     delete[] x;
+    delete[] isbasic;
+    delete[] general;
     return 0;
 }
