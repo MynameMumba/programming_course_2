@@ -8,6 +8,57 @@
 using namespace std;
 const float EPS = 1e-9;
 int inappropriate = 0;
+// Вспомогательная функция: превращает "+", "-", "" в числа
+float parseCoeff(string raw) {
+    if (raw.empty() || raw == "+") return 1.0f;
+    if (raw == "-") return -1.0f;
+    return stof(raw); // stod для double, stof для float
+}
+
+void universary(float* equation, string line) {
+    // 1. Убираем пробелы
+    string s = "";
+    for (char ch : line) if (ch != ' ') s += ch;
+
+    // 2. Ищем позиции
+    size_t xPos = s.find('x');
+    size_t yPos = s.find('y');
+    size_t zPos = s.find('z');
+    size_t eqPos = s.find('=');
+
+    //Парсим X
+    if (xPos != string::npos) {
+        string xRaw = s.substr(0, xPos);
+        equation[0] = parseCoeff(xRaw);
+    }
+    else {
+        equation[0] = 0; // Нет икса
+    }
+
+    //Парсим Y
+    if (yPos != string::npos) {
+        string yRaw = s.substr(xPos + 1, yPos - (xPos + 1));
+        equation[1] = parseCoeff(yRaw);
+    }
+    else {
+        equation[1] = 0;
+    }
+
+    //Парсим Z
+    if (zPos != string::npos) {
+        string zRaw = s.substr(yPos + 1, zPos - (yPos + 1));
+        equation[2] = parseCoeff(zRaw);
+    }
+    else {
+        equation[2] = 0;
+    }
+    //Парсим ==
+    if (eqPos != string::npos) {
+        string rightRaw = s.substr(eqPos + 1);
+        equation[3] = parseCoeff(rightRaw);
+    }
+}
+
 void prohod(float** matrix, int M, int Col, float* x) {
     for (int i = 0; i < M; i++) {
         bool rowIsZero = true;
@@ -69,9 +120,9 @@ void gauss(float** matrix, int M, int Col) {
         for (int i = n; i < Col; i++) {
             matrix[n][i] /= pivot;
         }
-       /* Из оставшихся строк вычитаем первую строку, 
-       умноженную на первый элемент соответствующей строки, 
-       с целью получить первым элементом каждой строки (кроме первой) ноль.
+        /* Из оставшихся строк вычитаем первую строку, 
+        умноженную на первый элемент соответствующей строки, 
+        с целью получить первым элементом каждой строки (кроме первой) ноль.
         */
         for (int i = n+1; i < M; i++) {
             float factor = matrix[i][n];
@@ -158,11 +209,17 @@ int main() {
                 }
             }
         }      
-        // Свободные переменные ==  
+        int pp = 0;
+        // Свободные переменные == 2
         for (int j = 0; j < Col - 1; j++) {
-            if (!isbasic[j]) {
-                general[j] = 2.0f;
+            if (!isbasic[j]&& (pp == 0)) {
+                general[j] = 4.0f;
+                pp++;
             }
+            else if (!isbasic[j] && (pp == 1)) {
+                general[j] = 1.0f;
+            }
+
         }
         //Находим базисные переменные обратным ходом
         for (int i = M - 1; i >= 0; i--) {
@@ -192,7 +249,6 @@ int main() {
         }
     }
 
-
     // вывод 
     ofstream out("Test.txt", ios::app);
     out << endl;
@@ -210,12 +266,12 @@ int main() {
     else if (inappropriate == 0) {
         out << "Единственное решение:" << endl;
         for (int i = 0; i < M; i++) {
-            out << "x" << i + 1 << " = " << fixed << setprecision(3) << x[i] << endl;
+            out << "x" << i + 1 << " = " << fixed << setprecision(3) << x[i] << "  ";
         }
     }
     // 3 задание
     else if (inappropriate == 2) {
-        out << "Общее решение(Свободные члены == 1):" << endl;
+        out << "Общее решение(Свободные члены == 2):" << endl;
         //
         int freeCount = 0;
         for (int i = 0; i < Col - 1; i++) {
@@ -259,5 +315,52 @@ int main() {
     delete[] x;
     delete[] isbasic;
     delete[] general;
+
+    //доп. задания(1)
+    inappropriate = 0;
+    string ln;
+    ifstream file("Ex_3.1.txt");
+    getline(file, ln);
+    int Q = ln.length(), colX= 0, colY =0;
+    //Создаем cтроки матриц
+    float equation1[4]{}, equation2[4]{}, equation3[4]{};
+    //делим строку по запятой
+    size_t zap1 = ln.find(',');
+    size_t zap2 = ln.find(',', zap1 + 1);
+    string line1 = ln.substr(0, zap1);
+    string line2 = ln.substr(zap1 + 1, zap2 - zap1 - 1);
+    string line3 = ln.substr(zap2 + 1);
+    //для 1-й строки 
+    universary(equation1, line1);
+    universary(equation2, line2);
+    universary(equation3, line3);
+    //создаем и заполняем матрицу
+    float** matrix = new float* [3];
+    for (int i = 0; i < 3; i++) {
+        matrix[i] = new float[4] {};
+    }
+    for (int j = 0; j < 4; j++) {
+        matrix[0][j] = equation1[j];
+        matrix[1][j] = equation2[j];
+        matrix[2][j] = equation3[j];
+
+    }
+    gauss(matrix, 3, 4);
+    float* x = new float[3] {};
+    prohod(matrix, 3, 4, x);
+    if (inappropriate == 1) out << "\n" << "Нет решений(Матрица несовместна)";
+    else if (inappropriate == 2) out << "\n" << "Прямые не пересекаются";
+    else {
+        out << "x = " << x[0] << " ";
+        out << "y = " << x[1] << " ";
+        out << "z = " << x[2] << endl;
+    }
+    file.close();
+    // удаление
+    for (int i = 0; i < M; i++) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+    delete[] x;
     return 0;
 }
