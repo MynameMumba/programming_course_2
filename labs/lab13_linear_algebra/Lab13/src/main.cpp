@@ -316,6 +316,7 @@ int main() {
     delete[] isbasic;
     delete[] general;
 
+    //--------------------------------------------------------------------------------------------
     //доп. задания(1)
     inappropriate = 0;
     string ln;
@@ -335,32 +336,34 @@ int main() {
     universary(equation2, line2);
     universary(equation3, line3);
     //создаем и заполняем матрицу
-    float** matrix = new float* [3];
+    float** matrix2 = new float* [3];
     for (int i = 0; i < 3; i++) {
-        matrix[i] = new float[4] {};
+        matrix2[i] = new float[4] {};
     }
     for (int j = 0; j < 4; j++) {
-        matrix[0][j] = equation1[j];
-        matrix[1][j] = equation2[j];
-        matrix[2][j] = equation3[j];
+        matrix2[0][j] = equation1[j];
+        matrix2[1][j] = equation2[j];
+        matrix2[2][j] = equation3[j];
 
     }
-    gauss(matrix, 3, 4);
-    float* x = new float[3] {};
-    prohod(matrix, 3, 4, x);
-    if (inappropriate == 1) out << "\n" << "Нет решений(Матрица несовместна)";
-    else if (inappropriate == 2) out << "\n" << "Прямые не пересекаются";
-    else {
-        out << "x = " << x[0] << " ";
-        out << "y = " << x[1] << " ";
-        out << "z = " << x[2] << endl;
-    }
+    // приводим к ступенчатому виду
+    gauss(matrix2, 3, 4);
+    float* x2 = new float[3] {};
+    // ф-ция prohod
+    prohod(matrix2, 3, 4, x2);
     file.close();
-    // удаление
-    for (int i = 0; i < M; i++) {
-        delete[] matrix[i];
+    ofstream out2("Ex_3.1.txt", ios::app);
+    if (inappropriate == 1) out2 << "\n" << "Inconsistent system";
+    else if (inappropriate == 2) out2 << "\n" << "Set of decisions";
+    else {
+        out2 << "x = " << x2[0] << " " << "y = " << x2[1] << " " << "z = " << x2[2] << endl;
     }
-    delete[] matrix;
-    delete[] x;
+    // удаление
+    for (int i = 0; i < 3; i++) {
+        delete[] matrix2[i];
+    }
+    delete[] matrix2;
+    delete[] x2;
+    out2.close();
     return 0;
 }
