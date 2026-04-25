@@ -46,7 +46,7 @@ int main() {
         matrixs[readmi[j][1]-1][readmi[j][0]-1] = 1;
     }
 
-    //выводим в файл Result Итоговую матрицу смежности
+    //выводим в файл Result1 Итоговую матрицу смежности
     ofstream out;
     out.open("Result1.txt");
     for (int i = 0; i < Max; i++) {
@@ -56,6 +56,7 @@ int main() {
         out << endl;
     }
     out.close();
+
     // задание 2
     // массив номеров смежных вершин
     int** adjust = new int* [Max] {};
@@ -83,8 +84,32 @@ int main() {
         out1 << "]" << endl;     
     }
     out1.close();
-
-
+    // Задание 3
+    // матрица последовательности ребер 
+    int** way = new int* [M] {};
+    for (int i = 0; i < M; i++) {
+        way[i] = new int[2];
+    }
+    //Заполняем массив, используя счетчик 'edgeCount'
+    int edgeCount = 0;
+    for (int i = 0; i < Max; i++) {
+        for (int k = 0; k < Max; k++) {
+            // Если в матрице смежности есть связь
+            if (adjust[i][k] == 0) break;
+            if ((i + 1) < adjust[i][k]) {
+                // Записываем ребро в текущую свободную позицию
+                way[edgeCount][0] = i + 1; 
+                way[edgeCount][1] = adjust[i][k];
+                edgeCount++; // ❗ Важно: увеличиваем индекс только после записи
+            }
+        }
+    }
+    ofstream out2;
+    out2.open("Result3.txt");
+    for (int i = 0; i < edgeCount; i++) {
+        out2 << way[i][0] << " " << way[i][1] << endl;
+    }
+    out2.close();
 
     //удаление
     for (int j = 0; j < M; j++) {
@@ -94,6 +119,10 @@ int main() {
         delete[] matrixs[j];
         delete[] adjust[j];
     }
+    for (int j = 0; j < M; j++) {
+        delete[] way[j];
+    }
+    delete[] way;
     delete[] adjust;
     delete [] readmi;
     delete[] matrixs;

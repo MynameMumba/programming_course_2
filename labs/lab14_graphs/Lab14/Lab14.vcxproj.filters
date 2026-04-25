@@ -14,5 +14,6 @@
     <Text Include="Test.txt" />
     <Text Include="Result1.txt" />
     <Text Include="Result2.txt" />
+    <Text Include="Result3.txt" />
   </ItemGroup>
 </Project>
