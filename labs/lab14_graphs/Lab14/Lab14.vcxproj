@@ -72,7 +72,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Result.txt" />
+    <Text Include="Result1.txt" />
+    <Text Include="Result2.txt" />
     <Text Include="Test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Test.txt" />
-    <Text Include="Result.txt" />
+    <Text Include="Result1.txt" />
+    <Text Include="Result2.txt" />
   </ItemGroup>
 </Project>

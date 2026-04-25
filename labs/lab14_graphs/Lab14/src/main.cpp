@@ -33,7 +33,7 @@ int main() {
         readmi[i][0] = num1;
         readmi[i][1] = num2;
         if (num1 > Max) Max = num1;
-        else if (num2 > Max) Max = num2;
+        if (num2 > Max) Max = num2;
     }
     in.close();
     // создаем пустую матрицу смежности и заполняем её
@@ -43,29 +43,47 @@ int main() {
     }
     for (int j = 0; j < M; j++) {
         matrixs[readmi[j][0]-1][readmi[j][1]-1] = 1;
+        matrixs[readmi[j][1]-1][readmi[j][0]-1] = 1;
     }
 
     //выводим в файл Result Итоговую матрицу смежности
     ofstream out;
-    out.open("Result.txt");
-    out << "   ";
-    for (int k = 1; k < Max+1; k++) {
-        out << k << " ";
-    }
-    out << endl;
-    out << "   ";
-    for (int k = 0; k < Max; k++) {
-        out << "_ ";
-    }
-    out << endl;
+    out.open("Result1.txt");
     for (int i = 0; i < Max; i++) {
-        out << i+1 << "| ";
         for (int j = 0; j < Max; j++) {
             out << matrixs[i][j] << " ";
         }
         out << endl;
     }
     out.close();
+    // задание 2
+    // массив номеров смежных вершин
+    int** adjust = new int* [Max] {};
+    for (int i = 0; i < Max; i++) {
+        adjust[i] = new int[Max] {};
+    }
+    for (int i = 0; i < Max; i++) {
+        int pos = 0;
+        for (int j = 0; j < Max; j++) {
+            if (matrixs[i][j] != 0) {
+                adjust[i][pos++] = j+1;
+            }
+        }
+    }//вывод массива смежных вершин
+    ofstream out1;
+    out1.open("Result2.txt");
+
+    for (int i = 0; i < Max; i++) {
+        out1 << "Вершина " << i+1 << ": [";
+        for (int j = 0; j < Max; j++) {
+            if (adjust[i][j] != 0) {
+                out1 << adjust[i][j] << " ";
+            }
+        }
+        out1 << "]" << endl;     
+    }
+    out1.close();
+
 
 
     //удаление
@@ -74,7 +92,9 @@ int main() {
     }
     for (int j = 0; j < Max; j++) {
         delete[] matrixs[j];
+        delete[] adjust[j];
     }
+    delete[] adjust;
     delete [] readmi;
     delete[] matrixs;
     return 0;
