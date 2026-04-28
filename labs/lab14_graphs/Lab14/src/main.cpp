@@ -90,17 +90,17 @@ int main() {
     for (int i = 0; i < M; i++) {
         way[i] = new int[2];
     }
-    //Заполняем массив, используя счетчик 'edgeCount'
+    //Заполняем массив, используя счетчик
     int edgeCount = 0;
     for (int i = 0; i < Max; i++) {
         for (int k = 0; k < Max; k++) {
-            // Если в матрице смежности есть связь
+            // Если в матрице adjust есть связь
             if (adjust[i][k] == 0) break;
             if ((i + 1) < adjust[i][k]) {
                 // Записываем ребро в текущую свободную позицию
                 way[edgeCount][0] = i + 1; 
                 way[edgeCount][1] = adjust[i][k];
-                edgeCount++; // ❗ Важно: увеличиваем индекс только после записи
+                edgeCount++;
             }
         }
     }
