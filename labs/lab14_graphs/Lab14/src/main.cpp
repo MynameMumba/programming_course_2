@@ -59,30 +59,46 @@ int main() {
 
     // задание 2
     // массив номеров смежных вершин
-    int** adjust = new int* [Max] {};
+    int edges = 0;
     for (int i = 0; i < Max; i++) {
-        adjust[i] = new int[Max] {};
-    }
-    for (int i = 0; i < Max; i++) {
-        int pos = 0;
         for (int j = 0; j < Max; j++) {
             if (matrixs[i][j] != 0) {
-                adjust[i][pos++] = j+1;
+                edges += 1;
             }
         }
-    }//вывод массива смежных вершин
+    }
+    int* adjust = new int [edges] {};
+    // массив длин
+    int* len1 = new int[Max] {};
+    // масив индексов
+    int* index = new int[Max] {};
+    int cc = 0, r = 0;
+
+    //заполняем массив номеров смежных вершин
+    for (int i = 0; i < Max; i++) {
+        for (int j = 0; j < Max; j++) {
+            if (matrixs[i][j] != 0) {
+                adjust[r] = j + 1;
+                r += 1;
+                len1[i] += 1;
+            }
+        }
+        index[i] = cc;
+        cc += len1[i];
+    }
+    r = 0;
+    //вывод массива смежных вершин
     ofstream out1;
     out1.open("Result2.txt");
-
     for (int i = 0; i < Max; i++) {
         out1 << "Вершина " << i+1 << ": [";
-        for (int j = 0; j < Max; j++) {
-            if (adjust[i][j] != 0) {
-                out1 << adjust[i][j] << " ";
-            }
+        for (int j = 0; j < len1[i]; j++) {
+            out1 << adjust[r] << " ";
+            r += 1;
         }
-        out1 << "]" << endl;     
+        out1 << "]" << endl;
     }
+ 
     out1.close();
     // Задание 3
     // матрица последовательности ребер 
@@ -92,16 +108,17 @@ int main() {
     }
     //Заполняем массив, используя счетчик
     int edgeCount = 0;
+    r = 0;
     for (int i = 0; i < Max; i++) {
-        for (int k = 0; k < Max; k++) {
-            // Если в матрице adjust есть связь
-            if (adjust[i][k] == 0) break;
-            if ((i + 1) < adjust[i][k]) {
-                // Записываем ребро в текущую свободную позицию
-                way[edgeCount][0] = i + 1; 
-                way[edgeCount][1] = adjust[i][k];
+        for (int k = 0; k < len1[i]; k++) {
+        // Записываем ребро в текущую свободную позицию
+            if ((i + 1) < adjust[r]) {
+                way[edgeCount][0] = i + 1;
+                way[edgeCount][1] = adjust[r];
                 edgeCount++;
+
             }
+            r++;
         }
     }
     ofstream out2;
@@ -110,6 +127,7 @@ int main() {
         out2 << way[i][0] << " " << way[i][1] << endl;
     }
     out2.close();
+    
 
     //удаление
     for (int j = 0; j < M; j++) {
@@ -117,7 +135,6 @@ int main() {
     }
     for (int j = 0; j < Max; j++) {
         delete[] matrixs[j];
-        delete[] adjust[j];
     }
     for (int j = 0; j < M; j++) {
         delete[] way[j];
