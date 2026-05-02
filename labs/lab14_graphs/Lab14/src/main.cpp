@@ -2,8 +2,18 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <vector>
+#include <algorithm>
 using namespace std;
-
+void Genealogy(int k, int num_families,int **data, vector <int>& row, vector<bool>& visited){
+    visited[k] = true;
+    row.push_back(k);
+    for (int j = 0; j < num_families; j++) {
+        if (data[k][j] == 1 && !visited[j]) {
+            Genealogy(j, num_families, data, row, visited);
+        }
+    }
+}
 int main() {
     int M = 0, num1 = 0, num2 = 0, Max = 0;
     string line;
@@ -143,5 +153,62 @@ int main() {
     delete[] adjust;
     delete [] readmi;
     delete[] matrixs;
+
+    //Genealogy
+    vector<vector<int>> family;
+    int num_families = 0;
+    num1 = 0, num2 = 0;
+    ifstream file2("Test2.txt");
+    file2 >> num_families;
+    //создаём матрицу смежности
+    int** data = new int* [num_families] {};
+    for (int i = 0; i < num_families; i++) {
+        data[i] = new int[num_families] {};
+    }
+    //заполняем её
+    while (file2 >> num1 >> num2) {
+        if (num1 == -1) break;
+        if (num1 >= 0 && num1 < num_families && num2 >= 0 && num2 < num_families) {
+            data[num1][num2] = 1;
+            data[num2][num1] = 1;  // неориентированный граф
+        }
+    }
+    file2.close();
+    //Рекурсивное нахождение мамы и папы
+    vector<bool> visited(num_families, false);// массив посешенных вершин
+    for (int i = 0; i < num_families; i++) {
+        vector <int> row;
+        if (!visited[i]) {
+            vector <int> row;
+            Genealogy(i, num_families, data, row, visited);
+            // сортируем и загружаем массив 
+            sort(row.begin(), row.end());
+            family.push_back(row);
+        }
+    }
+
+    // вывод
+    size_t Rows = family.size();
+    ofstream out3;
+    out3.open("Result_Genealogy.txt");
+
+    out3 << Rows << " семей" << endl;
+    for (int i = 0; i < Rows; i++) {
+        size_t Columns = family[i].size();
+        for (int j = 0; j < Columns; j++) {
+            if (j == Columns - 1) {
+                out3 << family[i][j];
+                break;
+            }
+            out3 << family[i][j] << "-";
+        }
+        out3 << endl;
+    }
+    out3.close();
+    // удаление после Генеалогии
+    for (int i = 0; i < num_families; i++) {
+        delete[] data[i];
+    }
+    delete[] data;
     return 0;
 }
